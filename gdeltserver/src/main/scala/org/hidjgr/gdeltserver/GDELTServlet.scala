@@ -27,7 +27,7 @@ class GDELTServlet extends ScalatraServlet {
   }
 
 
-  get("/codetest") {
+  get("/codes") {
 
     val ctx = connectdb()
     import ctx._
@@ -50,7 +50,7 @@ class GDELTServlet extends ScalatraServlet {
     Ok(jsonResult, Map("Access-Control-Allow-Origin" -> "*", "Content-Type" -> "application/json"))
   }
 
-  get("/eventtest") {
+  get("/events") {
 
     val ctx = connectdb()
     import ctx._
@@ -58,6 +58,19 @@ class GDELTServlet extends ScalatraServlet {
     val jsonResult: String = toJSONList(ctx.run(query[Events].take(500)))
 
     ctx.close()
-    Ok(jsonResult, Map("Access-Control-Allow-Origin" -> "*", "Content-Type" -> "application/json"))
+
+    Ok(jsonResult, Map(
+    "Access-Control-Allow-Origin" -> "*",
+    "Access-Control-Allow-Methods" -> "GET, POST, OPTIONS",
+    "Access-Control-Allow-Headers" -> "Content-Type, Authorization",
+    "Content-Type" -> "application/json"))
+  }
+
+  options("/events") {
+    Ok(Map(
+      "Access-Control-Allow-Origin" -> "*",
+      "Access-Control-Allow-Methods" -> "GET, POST, OPTIONS",
+      "Access-Control-Allow-Headers" -> "Content-Type, Authorization"
+    ))
   }
 }

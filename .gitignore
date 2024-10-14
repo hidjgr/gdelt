@@ -1,4 +1,4 @@
-data/
-doc/
-scripts/
-metadata/
+/data
+/doc
+/scripts
+/metadata

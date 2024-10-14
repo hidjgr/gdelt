@@ -1,0 +1,14 @@
+body {
+  padding: 0;
+}
+
+#debug-panel {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.hover-tooltip {
+  background-color: white;
+  transform: translate(50%,-50%);
+}
