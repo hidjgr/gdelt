@@ -112,7 +112,7 @@ function GDELTGlobe() {
                   if (data.point[attribute] || data.point[attribute] === 0) {
                     if (!info[fieldMap["actor"][i]]) info[fieldMap["actor"][i]] = {}
                     if (!info[fieldMap["actor"][i]][field]) info[fieldMap["actor"][i]][field] = {}
-                    info[fieldMap["actor"][i]][field][j] = codes[field.toLowerCase()][data.point[attribute]];
+                    info[fieldMap["actor"][i]][field][j] = memoizedCodes[field.toLowerCase()][data.point[attribute]];
                   }
                 }
               }
@@ -122,7 +122,7 @@ function GDELTGlobe() {
                   if (data.point[attribute] || data.point[attribute] === 0) {
                     if (!info[fieldMap["actor"][i]]) info[fieldMap["actor"][i]] = {}
                     if (!info[fieldMap["actor"][i]][field]) info[fieldMap["actor"][i]][field] = {}
-                    info[fieldMap["actor"][i]][field][j] = codes[field.toLowerCase()][data.point[attribute]];
+                    info[fieldMap["actor"][i]][field][j] = memoizedCodes[field.toLowerCase()][data.point[attribute]];
                   }
                 }
               }
@@ -130,20 +130,20 @@ function GDELTGlobe() {
                 attribute = "Actor" + i + field + "Code";
                 if (data.point[attribute] || data.point[attribute] === 0) {
                   if (!info[fieldMap["actor"][i]]) info[fieldMap["actor"][i]] = {}
-                  info[fieldMap["actor"][i]][field] = codes[field.toLowerCase()][data.point[attribute]];
+                  info[fieldMap["actor"][i]][field] = memoizedCodes[field.toLowerCase()][data.point[attribute]];
                 }
               }
             }
           }
 
           let elementString = `
-        <div class=hover-tooltip><div><p>Event</p><ul>
-        <li>Date: ${data.point.Day}</li>
-                    <li>Place: ${data.point.ActionGeo_Fullname}</li>
-                    <li>${data.point.NumArticles}</li>
-                    <li>avg tone: ${data.point.AvgTone}</li>
-                    <li>goldstein: ${data.point.GoldsteinScale}</li>
-                    <li>quadclass: ${data.point.QuadClass}</li></ul></div>`
+          <div class=hover-tooltip><div><p>Event</p><ul>
+          <li>Date: ${data.point.Day}</li>
+          <li>Place: ${data.point.ActionGeo_Fullname}</li>
+          <li>${data.point.NumArticles}</li>
+          <li>avg tone: ${data.point.AvgTone}</li>
+          <li>goldstein: ${data.point.GoldsteinScale}</li>
+          <li>quadclass: ${data.point.QuadClass}</li></ul></div>`
 
 
           if (info.Author) {
