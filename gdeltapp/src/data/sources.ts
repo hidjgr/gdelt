@@ -1,4 +1,5 @@
 import { Event, CAMEOCode, CAMEO_country, CAMEO_type, CAMEO_ethnic, CAMEO_religion, CAMEO_eventcodes, CAMEO_knowngroup, CAMEO_goldsteinscale, FIPS_country } from './GDELTTypes';
+import { events, codes } from './samples';
 
 abstract class Source {
   protected mapEvents(jsonData: any[]): Event[] {
@@ -127,16 +128,16 @@ class ScalatraSource extends Source {
   }
 }
 
-/*class SampleSource extends Source {
-  async fetchEvents(startDate:Date, endDate:Date) {
-    return null;
+class SampleSource extends Source {
+  async fetchEvents(startDate:Date, endDate:Date): Promise<Event[]> {
+    return this.mapEvents(events);
   }
-  async fetchCodes() {
-    return null;
+  async fetchCodes(cameoType: string): Promise<CAMEOCode[]> {
+    return this.mapCAMEOCodes(codes[cameoType], cameoType);
   }
 }
 
-class ZipSource extends Source {
+/*class ZipSource extends Source {
   async fetchEvents(startDate:Date, endDate:Date) {
     return null;
   }
@@ -158,9 +159,9 @@ export function getSource(source: string): Source {
   switch (source) {
     case 'scalatra':
       return new ScalatraSource();
-    /*case "sample":
+    case "sample":
       return new SampleSource();
-    case "zip":
+    /*case "zip":
       return new ZipSource();
     case "bigquery":
       return new BigQuerySource();*/

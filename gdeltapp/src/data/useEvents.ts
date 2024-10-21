@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { getSource } from "./sources";
 import { Event } from "./GDELTTypes";
 
-const source = getSource("scalatra");
+const source = getSource("sample");
 
 const useEvents = (startDate: Date, endDate: Date) => {
   const [events, setEvents] = useState<Event[]>([]);
@@ -26,7 +26,7 @@ const useEvents = (startDate: Date, endDate: Date) => {
 
   }, [startDate, endDate]);
 
-  return { events, loading, error };
+  return { events, loading, error};
 };
 
 export default useEvents;

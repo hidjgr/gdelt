@@ -8,9 +8,14 @@ body {
   left: 10px;
 }
 
-.hover-tooltip {
+#color-panel {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+#hover-tooltip {
   font-size: 8pt;
-  background-color: white;
   display: flex;
   flex-direction: row;
   transform: translate(50%,-50%);
