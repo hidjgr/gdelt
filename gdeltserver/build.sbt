@@ -3,8 +3,6 @@ val ScalatraVersion = "2.8.2"
 ThisBuild / scalaVersion := "2.12.18"
 ThisBuild / organization := "org.hidjgr"
 
-addSbtPlugin("com.earldouglas" % "xsbt-web-plugin" % "4.2.4")
-
 lazy val hello = (project in file("."))
   .settings(
     name := "gdeltserver",

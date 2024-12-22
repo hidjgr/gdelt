@@ -8,9 +8,12 @@ class GDELTServlet extends ScalatraServlet with CorsSupport {
 
   def connectdb() : PostgresJdbcContext[LowerCase] = {
     val pgDataSource = new org.postgresql.ds.PGSimpleDataSource()
-    pgDataSource.setDatabaseName("gdelt")
-    pgDataSource.setUser("gdelt_u")
-    pgDataSource.setPassword("gdelt_pw")
+    pgDataSource.setDatabaseName(
+             sys.env.getOrElse("DBNAME", throw new RuntimeException("DBNAME not set!")))
+    pgDataSource.setUser(
+             sys.env.getOrElse("DBUSER", throw new RuntimeException("DBUSER not set!")))
+    pgDataSource.setPassword(
+             sys.env.getOrElse("DBPASSWORD", throw new RuntimeException("DBPASSWORD not set!")))
 
     val hikariConfig = new HikariConfig()
     hikariConfig.setDataSource(pgDataSource)
