@@ -4,3 +4,4 @@
 /metadata
 .env
 masterfilelist*
+scripts/events.csv
