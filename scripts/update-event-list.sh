@@ -1,0 +1,10 @@
+#!/usr/bin/bash
+
+mv masterfilelist-all.txt masterfilelist-all-previous.txt
+
+curl http://data.gdeltproject.org/gdeltv2/masterfilelist.txt | grep export | tail -n 96 > masterfilelist.txt
+curl http://data.gdeltproject.org/gdeltv2/masterfilelist-translation.txt | grep export | tail -n 96 > masterfilelist-translation.txt
+
+cat masterfilelist.txt masterfilelist-translation.txt | cut -d' ' -f3 | sort > masterfilelist-all.txt
+
+comm -13 masterfilelist-all-previous.txt masterfilelist-all.txt > masterfilelist-update.txt

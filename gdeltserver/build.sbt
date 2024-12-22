@@ -19,6 +19,7 @@ lazy val hello = (project in file("."))
       "com.google.cloud" % "google-cloud-bigquery" % "2.27.1",
       "ch.qos.logback" % "logback-classic" % "1.2.3" % "runtime",
       "org.eclipse.jetty" % "jetty-webapp" % "9.4.43.v20210629" % "container",
+      "org.eclipse.jetty" % "jetty-servlet" % "9.4.43.v20210629" % "container",
       "javax.servlet" % "javax.servlet-api" % "3.1.0" % "provided",
     ),
 

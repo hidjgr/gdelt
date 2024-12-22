@@ -59,7 +59,7 @@ export class Event {
     public Actor2Geo_Lat: number | null,
     public Actor2Geo_Long: number | null,
     public Actor2Geo_Type: number | null,
-    public DATEADDED: string,
+    public DATEADDED: number,
     public SOURCEURL: string,
   ) {}
 }

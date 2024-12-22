@@ -101,7 +101,7 @@ class ScalatraSource extends Source {
   
   async fetchEvents(startDate: Date, endDate: Date): Promise<Event[]> {
     try {
-      const response = await fetch(`http://localhost/gdelt/api/events`);
+      const response = await fetch(import.meta.env.VITE_SCALATRA_URL);
       if (!response.ok) {
         throw new Error(`Error fetching events: ${response.statusText}`);
       }

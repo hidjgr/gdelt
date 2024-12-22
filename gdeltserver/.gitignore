@@ -75,4 +75,4 @@ metals.sbt
 
 # paulp script
 /.lib/
-deploy.sh
+# deploy.sh

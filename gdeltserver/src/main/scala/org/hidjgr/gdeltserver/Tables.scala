@@ -66,7 +66,7 @@ case class Events(
   ActionGeo_Lat: Double,
   ActionGeo_Long: Double,
   ActionGeo_FeatureID: String,
-  DATEADDED: String,
+  DATEADDED: Long,
   SOURCEURL: String,
 ) extends Record() {
   override def toJSON(): String = {

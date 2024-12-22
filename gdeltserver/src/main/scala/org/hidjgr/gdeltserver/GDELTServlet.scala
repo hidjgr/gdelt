@@ -4,7 +4,7 @@ import org.scalatra._
 import io.getquill._
 import com.zaxxer.hikari.{HikariConfig, HikariDataSource}
 
-class GDELTServlet extends ScalatraServlet {
+class GDELTServlet extends ScalatraServlet with CorsSupport {
 
   def connectdb() : PostgresJdbcContext[LowerCase] = {
     val pgDataSource = new org.postgresql.ds.PGSimpleDataSource()
@@ -47,7 +47,11 @@ class GDELTServlet extends ScalatraServlet {
     }
 
     ctx.close()
-    Ok(jsonResult, Map("Access-Control-Allow-Origin" -> "*", "Content-Type" -> "application/json"))
+    Ok(jsonResult, Map(
+    "Access-Control-Allow-Origin" -> "*",
+    "Access-Control-Allow-Methods" -> "GET, POST, OPTIONS",
+    "Access-Control-Allow-Headers" -> "Content-Type, Authorization",
+    "Content-Type" -> "application/json"))
   }
 
   get("/events") {
@@ -66,7 +70,7 @@ class GDELTServlet extends ScalatraServlet {
     "Content-Type" -> "application/json"))
   }
 
-  options("/events") {
+  options("/*") {
     Ok(Map(
       "Access-Control-Allow-Origin" -> "*",
       "Access-Control-Allow-Methods" -> "GET, POST, OPTIONS",

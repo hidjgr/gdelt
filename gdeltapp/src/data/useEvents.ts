@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { getSource } from "./sources";
 import { Event } from "./GDELTTypes";
 
-const source = getSource("sample");
+const source = getSource(import.meta.env.VITE_SOURCE);
 
 const useEvents = (startDate: Date, endDate: Date) => {
   const [events, setEvents] = useState<Event[]>([]);
