@@ -93,15 +93,15 @@ abstract class Source {
     });
   }
 
-  abstract fetchEvents(startDate:Date, endDate:Date): Promise<Event[]>;
+  abstract fetchEvents(startDate:Date, endDate:Date, limits: object): Promise<Event[]>;
   abstract fetchCodes(cameoType:string): Promise<CAMEOCode[]>;
 }
 
 class ScalatraSource extends Source {
   
-  async fetchEvents(startDate: Date, endDate: Date): Promise<Event[]> {
+  async fetchEvents(startDate: Date, endDate: Date, limits: object): Promise<Event[]> {
     try {
-      const response = await fetch(import.meta.env.VITE_SCALATRA_URL);
+      const response = await fetch(import.meta.env.VITE_SCALATRA_URL, {method: "POST", body: JSON.stringify(limits)});
       if (!response.ok) {
         throw new Error(`Error fetching events: ${response.statusText}`);
       }
@@ -129,7 +129,7 @@ class ScalatraSource extends Source {
 }
 
 class SampleSource extends Source {
-  async fetchEvents(startDate:Date, endDate:Date): Promise<Event[]> {
+  async fetchEvents(startDate:Date, endDate:Date, limits: object): Promise<Event[]> {
     return this.mapEvents(events);
   }
   async fetchCodes(cameoType: string): Promise<CAMEOCode[]> {
@@ -138,7 +138,7 @@ class SampleSource extends Source {
 }
 
 /*class ZipSource extends Source {
-  async fetchEvents(startDate:Date, endDate:Date) {
+  async fetchEvents(startDate:Date, endDate:Date, limits: object) {
     return null;
   }
   async fetchCodes() {
@@ -147,7 +147,7 @@ class SampleSource extends Source {
 }
 
 class BigQuerySource extends Source {
-  async fetchEvents(startDate:Date, endDate:Date) {
+  async fetchEvents(startDate:Date, endDate:Date, limits: object) {
     return null;
   }
   async fetchCodes() {

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { getSource } from './sources';
 import { CAMEOCode } from './GDELTTypes';
 
-const source = getSource('sample');
+const source = getSource(import.meta.env.VITE_SOURCE);
 
 const useCodes = (cameoType: string[]) => {
     const [codes, setCodes] = useState<{ [key: string]: { [key: string]: string } }>({});

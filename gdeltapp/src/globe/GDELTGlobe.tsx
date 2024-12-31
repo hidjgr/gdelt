@@ -5,8 +5,9 @@ import earthBump from '../assets/gdelt/8081_earthbump4k.jpg';
 import skyTexture from '../assets/gdelt/stars.jpg';
 import useEvents from '../data/useEvents';
 import useCodes from '../data/useCodes';
+import { decomposeRegions } from './utils';
 import * as d3 from 'd3';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 
 const today = new Date();
 const actorCameoEndpoints = ["eventcodes", "country", "ethnic", "knowngroup", "religion", "type"];
@@ -29,12 +30,28 @@ const avgToneColor = (point) => {
 const colorFuncs = { "Goldstein": goldsteinColor, "AvgTone": avgToneColor }
 
 function GDELTGlobe() {
-    const { events, loadingEvents, errorEvents } = useEvents(today, today);
+    const [startHour, setStartHour] = useState<number>(-23);
+    const [endHour, setEndHour] = useState<number>(0);
+    const [limits, setLimits] = useState<object[][]>([]);
+
+    const { events, loadingEvents, errorEvents } = useEvents(startHour, endHour, limits);
     const { codes, loadingCodes, errorCodes } = useCodes(actorCameoEndpoints);
     const [tooltip, setTooltip] = useState<object[]>([]);
     const [colorFunc, setColorFunc] = useState<string>("Goldstein");
     const [pointSize, setPointSize] = useState<number>(0.25);
     const [hoverArc, setHoverArc] = useState<object[]>([]);
+
+    const globeRef = useRef();
+
+    const reloadEvents = () => {
+        if (globeRef.current) {
+	  const regions = decomposeRegions(globeRef.current.getScreenCoords,
+					   globeRef.current.toGlobeCoords,
+					   10); // sensible values: divisors of 90
+                                                // 2 3 5 6 9 10 15 18 30 45 90
+	  console.log(regions);
+        }
+      };
 
     const arcsEq = (x: any, y: any) => {
         return x.Actor1Geo_Lat === y.Actor1Geo_Lat &&
@@ -99,6 +116,7 @@ function GDELTGlobe() {
     return (
         <div>
             <Globe
+	    	ref={globeRef}
                 globeImageUrl={earthTexture}
                 bumpImageUrl={earthBump}
                 backgroundImageUrl={skyTexture}
@@ -137,7 +155,9 @@ function GDELTGlobe() {
                         setTooltip([]);
                     }
                 }}
-                onZoom={pov => setPointSize(pov.altitude / 5)}
+                onZoom={pov => {
+			setPointSize(pov.altitude / 5);}
+			}
                 arcsData={memoizedArcs}
                 arcColor={point =>colorFuncs[colorFunc](point)}
                 arcsTransitionDuration={0}
@@ -249,22 +269,21 @@ function GDELTGlobe() {
                 }}
             />
 
-	    <ColorPanel colorHandler={colorButtonHandler} />
+	    <ControlPanel colorHandler={colorButtonHandler} loadEvents={reloadEvents} />
         </div>
     );
 }
 
-export const ColorPanel = ({colorHandler}) => {
+export const ControlPanel = ({colorHandler, loadEvents}) => {
 
   return (
-    <div id="color-panel">
-      <p>Color by:</p>
-      <button onClick={() => colorHandler("Goldstein")}>
-      Goldstein
-      </button>
-      <button onClick={() => colorHandler("AvgTone")}>
-      AvgTone
-      </button>
+    <div id="control-panel">
+      <button onClick={() => loadEvents()}>Load events</button>
+      <div>
+        <p>Color by:</p>
+        <button onClick={() => colorHandler("Goldstein")}>Goldstein</button>
+        <button onClick={() => colorHandler("AvgTone")}>AvgTone</button>
+      </div>
     </div>
   );
 };

@@ -62,7 +62,16 @@ class GDELTServlet extends ScalatraServlet with CorsSupport {
     val ctx = connectdb()
     import ctx._
 
-    val jsonResult: String = toJSONList(ctx.run(query[Events].take(500)))
+
+    System.out.println(params.get("hourStart"))
+    System.out.println(params.get("hourEnd"))
+    System.out.println(params.get("limits"))
+
+    val jsonResult: String = toJSONList(ctx.run(query[Events].filter(
+      (row:Events) => 
+      ((row.ActionGeo_Lat > 34) && (row.ActionGeo_Lat < 70)) &&
+      ((row.ActionGeo_Long > -11) && (row.ActionGeo_Long < 38))
+    ).take(500)))
 
     ctx.close()
 
