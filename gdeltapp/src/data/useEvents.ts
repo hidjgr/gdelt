@@ -4,7 +4,7 @@ import { Event } from "./GDELTTypes";
 
 const source = getSource(import.meta.env.VITE_SOURCE);
 
-const useEvents = (startDate: Date, endDate: Date, limits: object) => {
+const useEvents = (params: object) => {
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<unknown>(null);
@@ -13,7 +13,7 @@ const useEvents = (startDate: Date, endDate: Date, limits: object) => {
     const loadEvents = async () => {
       try {
         setLoading(true);
-        const data = await source.fetchEvents(startDate, endDate, limits);
+        const data = await source.fetchEvents(params.startHour, params.endHour, params.limits);
         setEvents(data);
       } catch (e) {
         setError(e);
@@ -22,9 +22,9 @@ const useEvents = (startDate: Date, endDate: Date, limits: object) => {
       }
     };
 
-    loadEvents(); 
+    loadEvents();
 
-  }, [startDate, endDate, limits]);
+  }, [params]);
 
   return { events, loading, error};
 };

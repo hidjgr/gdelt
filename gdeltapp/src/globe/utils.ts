@@ -9,7 +9,6 @@ function isVisible(latBox: number, lngBox: number, coords: object) {
 
 function checkPoints(gs: Function, sg: Function, boxSize: number) {
 	var pixels, latBox, lngBox, col;
-	// var debugstr = "";
 	
 	const matrix = []
 
@@ -22,20 +21,13 @@ function checkPoints(gs: Function, sg: Function, boxSize: number) {
 			pixels = gs(latBox, lngBox);
 			if (isVisible(latBox, lngBox, sg(pixels.x, pixels.y))) {
 			    col.push(1);
-			    // debugstr += " [" + `${j}`.padStart(3, " ") + "," + `${i}`.padStart(3, " ") + "]";
-			    // debugstr += "██";
 			} else {
 				col.push(0);
-				// debugstr += "          ";
-				// debugstr +="  ";
 			}
 		}
-		// debugstr += "\n";
 		matrix.push(col);
 		visible.push(col.includes(1));
 	}
-
-	// console.log(debugstr);
 
 	const splits = [];
 

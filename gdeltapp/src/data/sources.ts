@@ -93,15 +93,21 @@ abstract class Source {
     });
   }
 
-  abstract fetchEvents(startDate:Date, endDate:Date, limits: object): Promise<Event[]>;
+  abstract fetchEvents(startHour: number, endHour: number, limits: object): Promise<Event[]>;
   abstract fetchCodes(cameoType:string): Promise<CAMEOCode[]>;
 }
 
 class ScalatraSource extends Source {
   
-  async fetchEvents(startDate: Date, endDate: Date, limits: object): Promise<Event[]> {
+  async fetchEvents(startHour: number, endHour: number, limits: object): Promise<Event[]> {
     try {
-      const response = await fetch(import.meta.env.VITE_SCALATRA_URL, {method: "POST", body: JSON.stringify(limits)});
+      const response = await fetch(`${import.meta.env.VITE_SCALATRA_URL}/events`, {
+	      method: "POST",
+	      headers: {'Content-Type': 'application/json'},
+	      body: JSON.stringify({
+		startHour: startHour,
+		endHour: endHour,
+		limits: limits})});
       if (!response.ok) {
         throw new Error(`Error fetching events: ${response.statusText}`);
       }
@@ -115,7 +121,10 @@ class ScalatraSource extends Source {
 
   async fetchCodes(cameoType: string): Promise<CAMEOCode[]> {
     try {
-      const response = await fetch(`http://localhost/gdelt/api/codes?cameo=${cameoType}`);
+      const response = await fetch(`${import.meta.env.VITE_SCALATRA_URL}/codes`, {
+	      method: "POST",
+	      headers: {'Content-Type': 'application/json'},
+	      body: JSON.stringify({cameo: cameoType})});
       if (!response.ok) {
         throw new Error(`Error fetching CAMEO codes: ${response.statusText}`);
       }
@@ -129,7 +138,7 @@ class ScalatraSource extends Source {
 }
 
 class SampleSource extends Source {
-  async fetchEvents(startDate:Date, endDate:Date, limits: object): Promise<Event[]> {
+  async fetchEvents(startHour: number, endHour: number, limits: object): Promise<Event[]> {
     return this.mapEvents(events);
   }
   async fetchCodes(cameoType: string): Promise<CAMEOCode[]> {
@@ -138,7 +147,7 @@ class SampleSource extends Source {
 }
 
 /*class ZipSource extends Source {
-  async fetchEvents(startDate:Date, endDate:Date, limits: object) {
+  async fetchEvents(startHour: number, endHour: number, limits: object) {
     return null;
   }
   async fetchCodes() {
@@ -147,7 +156,7 @@ class SampleSource extends Source {
 }
 
 class BigQuerySource extends Source {
-  async fetchEvents(startDate:Date, endDate:Date, limits: object) {
+  async fetchEvents(startHour: number, endHour: number, limits: object) {
     return null;
   }
   async fetchCodes() {

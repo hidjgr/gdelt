@@ -2,3 +2,8 @@
   position: relative;
   margin: 0;
 }
+
+#control-panel span {
+  display: block;
+  width: 40%;
+}
