@@ -1,3 +1,3 @@
 package org.hidjgr.gdeltserver.data
 
-class CameoRequest extends GDELTRequest {}
+case class CameoRequest(cameo: String) extends GDELTRequest {}

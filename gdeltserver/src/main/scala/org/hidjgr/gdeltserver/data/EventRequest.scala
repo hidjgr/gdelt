@@ -1,3 +1,3 @@
 package org.hidjgr.gdeltserver.data
 
-class EventRequest extends GDELTRequest {}
+abstract class EventRequest(startHour: Int, endHour: Int) extends GDELTRequest {}

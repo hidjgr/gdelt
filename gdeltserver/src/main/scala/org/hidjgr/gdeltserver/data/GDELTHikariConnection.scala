@@ -1,3 +1,9 @@
 package org.hidjgr.gdeltserver.data
 
-class GDELTHikariConnection extends GDELTDBConnection {}
+import com.zaxxer.hikari.{HikariConfig, HikariDataSource}
+import java.sql.{Connection, SQLException}
+
+class GDELTHikariConnection extends GDELTDBConnection {
+
+}
+
